@@ -86,3 +86,4 @@ D:\VSCode\ShopBridge\obj\Debug\ShopBridge.csprojAssemblyReference.cache
 D:\VSCode\ShopBridge\obj\Debug\ShopBridge.csproj.CopyComplete
 D:\VSCode\ShopBridge\obj\Debug\ShopBridge.dll
 D:\VSCode\ShopBridge\obj\Debug\ShopBridge.pdb
+D:\VSCode\ShopBridge\obj\Debug\ShopBridge.csproj.CoreCompileInputs.cache
