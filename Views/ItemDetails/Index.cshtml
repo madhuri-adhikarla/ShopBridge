@@ -1,0 +1,194 @@
+﻿@model IEnumerable<ShopBridge.Models.ItemDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    img {
+        cursor: pointer;
+    }
+
+    h3 {
+        color: cornflowerblue;
+    }
+
+    th {
+        color: cornflowerblue;
+        font-weight: 600;
+    }
+
+    .details-grid-container {
+        padding: 10px;
+        margin-top: 15px;
+    }
+
+    table {
+        width: 100%;
+    }
+</style>
+
+<div class="createContainer"></div>
+<div class="editContainer"></div>
+
+
+<!--<p style="font-weight : 600">
+    Add to Inventory
+    @*<a href="@Url.Action("Create", "ItemDetails")"><img src="~/Content/Images/AddToInventory.png" style=" width: 40px; margin : 10px; " /></a>*@
+    <a onclick="CreateNewItemPartial()"><img src="~/Content/Images/AddToInventory.png" style=" width: 40px; margin : 10px; " /></a>
+</p>-->
+
+<div class="details-grid-container">
+
+    <table class="table">
+
+        <colgroup>
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 40%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 30%;">
+        </colgroup>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-weight: 600">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td >
+                    <b> $ @Html.DisplayFor(modelItem => item.Price) </b>
+                </td>
+
+                <td>
+                    <img src="/ItemDetails/RetrieveImage/@item.ItemId" alt="" height=100 width=200 />
+                </td>
+
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.ItemId })*@
+                    <a onclick="EditItemPartial(@item.ItemId)"><img src="\Content\Images\edit.png" style=" width: 23px; margin : 10px; " /></a>
+                    <a onclick="ItemDetailsPartial(@item.ItemId)"><img src="\Content\Images\details.png" style=" width: 18px;  margin : 10px; " /></a>
+                    <a onclick="DeleteItemPartial(@item.ItemId)"><img src="\Content\Images\delete.png" style=" width: 18px;  margin : 10px; " /></a>
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+       
+    });
+
+
+    function CreateNewItemPartial() {
+        $.ajax({
+            type: "GET",
+            url: "/ItemDetails/Create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                $('.details-grid-container').addClass('hidden');
+                $('.createContainer').html(response);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+    }
+
+    function DeleteItemPartial(itemId) {
+
+        if (confirm("Are you sure you want to delete ?")) {
+            $.ajax({
+                type: "POST",
+                url: "/ItemDetails/DeleteConfirmed",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ id: itemId }),
+                dataType: "html",
+                success: function (response) {
+                    window.location.reload();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+        else {
+
+        }
+
+    }
+
+    function ItemDetailsPartial(itemId) {
+
+        $.ajax({
+            type: "POST",
+            url: "/ItemDetails/Details",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: itemId }),
+            dataType: "html",
+            success: function (response) {
+                $('.details-grid-container').addClass('hidden');
+                $('.createContainer').html(response);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function EditItemPartial(itemId) {
+
+        $.ajax({
+            type: "POST",
+            url: "/ItemDetails/EditPartial",
+            contentType: "application/json",
+            data: JSON.stringify({ id: itemId }),
+            dataType: "html",
+            success: function (response) {
+                $('.details-grid-container').addClass('hidden');
+                $('.editContainer').html(response);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+</script>
+
+
+
+
