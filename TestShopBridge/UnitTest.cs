@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShopBridge.Controllers;
@@ -30,12 +30,10 @@ namespace TestShopBridge
             ActionResult result = cnt.Create(itemDetail);
             Assert.IsNotNull(result);
         }
-        
-        
+
         [TestMethod]
-        public void editItem()
+        public void EditItem()
         {
-            int id = 3;
             ItemDetail itemDetail = new ItemDetail();
             itemDetail.Name = "iPhone";
             itemDetail.Description = "iPhone Description";
