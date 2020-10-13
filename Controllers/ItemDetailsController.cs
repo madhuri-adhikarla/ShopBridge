@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -57,15 +57,17 @@ namespace ShopBridge.Controllers
         [HttpPost]
         public ActionResult Create(ItemDetail itemDetail)
         {
-            HttpPostedFileBase file = Request.Files["ImageData"];
-            ItemDetailsRepository repo = new ItemDetailsRepository();
-            int i = repo.SaveDetails(file, itemDetail);
-
-            if (i == 1)
+            if(Request != null)
             {
-                return RedirectToAction("Index");
-            }
+                HttpPostedFileBase file = Request.Files["ImageData"];
+                ItemDetailsRepository repo = new ItemDetailsRepository();
+                int i = repo.SaveDetails(file, itemDetail);
+                if (i == 1)
+                {
+                    return RedirectToAction("Index");
+                }
 
+            }
             return View(itemDetail);
         }
 
@@ -98,17 +100,20 @@ namespace ShopBridge.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ItemDetail itemDetail)
         {
-            HttpPostedFileBase file = Request.Files["ImageData"];
-            ItemDetailsRepository repo = new ItemDetailsRepository();
-            if (ModelState.IsValid)
+            if (Request != null)
             {
-                int i = repo.EditDetails(file, itemDetail);
-
-                if (i == 1)
+                HttpPostedFileBase file = Request.Files["ImageData"];
+                ItemDetailsRepository repo = new ItemDetailsRepository();
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Index");
+                    int i = repo.EditDetails(file, itemDetail);
+
+                    if (i == 1)
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                 }
-           
             }
             return PartialView("_EditItemDetails", itemDetail);
         }
