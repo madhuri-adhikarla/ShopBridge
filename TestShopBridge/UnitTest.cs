@@ -30,7 +30,9 @@ namespace TestShopBridge
             ActionResult result = cnt.Create(itemDetail);
             Assert.IsNotNull(result);
         }
-
+        
+        
+        [TestMethod]
         public void editItem()
         {
             int id = 3;
